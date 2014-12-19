@@ -1,0 +1,26 @@
+html, body {
+  /* Make the body to be as tall as browser window */
+  height: 100%;
+  width:100%;
+ }
+
+#users
+{
+  background-color:lightyellow;
+  
+  
+}
+#chatArea{
+background-color:lightyellow;
+  height:80%;
+  padding:20px;
+}
+#chatRoom
+{
+  height:540px;
+}
+#chatForm
+{
+  background-color:lightyblue;
+  
+}

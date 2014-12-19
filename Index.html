@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Socket.IO chat</title>
+	<link href="bootstrap/css/bootstrap.min.css" rel="stylesheet">
+		<style>
+	html, body {  /* Make the body to be as tall as browser window */  height: 100%;  width:100%; background-color:grey}
+
+#chatArea{background-color:lightgrey;height:70%;width:500px;float:left;margin:5px}
+#chatRoom{height:505px;}
+#chatForm{background-color:lightyblue;height:50px;}
+#users{background-color:lightblue;width:540px;height:555px;display:inline-block;margin:5px}
+#messages{width:400px;height:50px}
+#m{width:400px}
+	</style>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+  </head>
+  <body>
+  <div id="header" class="row">
+   <div id="chatArea" class="col-sm-8">    
+   
+   <div id="chatRoom">
+   <table><tr>
+   <td><h4>GuestName<h4></td><td><input type="text" id="guestName" /></td></tr></table>
+   <ul id="messages"></ul>
+   </div>
+   
+   <div id="chatForm">
+	<form action="">
+      <input type="textarea" rows="5" cols="15" id="m" autocomplete="off" /><button type="submit">Send</button>
+	</form>
+	</div>
+	 </div> 
+	 
+	<div id="users" class="col-sm-4">
+	 <h4>GuestList<h4>
+	 <ul id="guests"></ul>
+	</div>
+	
+	</div>
+    <script src="/socket.io/socket.io.js"></script>
+    <script>
+      var socket = io();
+	  var guests=[];
+	  var guestName;
+      $('form').submit(function(){
+	    socket.guestName=$('#guestName').val();
+	    socket.emit('guestName', $('#guestName').val());
+        socket.emit('chat message', $('#m').val());
+        $('#m').val('');
+        return false;
+      });
+      socket.on('chat message', function(msg){
+        $('#messages').append($('<li>').text(guestName+":"+msg));
+      });
+	   socket.on('guestName', function(msg){
+        guestName = socket.guestName;
+		if(guests.indexOf(msg) == -1){
+		guests.push(msg);
+		$('#guests').append($('<li>').text(guestName));
+		}
+      });
+    </script>
+  </body>
+</html> 
